@@ -13,6 +13,23 @@ CREATE TABLE `organizations` (
   UNIQUE INDEX `name_UNIQUE` (`name` ASC)
 );
 
+CREATE TABLE `teams` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  `size` TINYINT UNSIGNED NOT NULL,
+  `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC)
+);
+
+CREATE TABLE `teams_users` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `team_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `admins`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
@@ -23,17 +40,7 @@ CREATE TABLE `admins`(
   FOREIGN KEY (user_id) REFERENCES `users`(id)
 );
 
-CREATE TABLE `staffs`(
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` INT UNSIGNED NOT NULL,
-  `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
-  FOREIGN KEY (user_id) REFERENCES `users`(id)
-);
-
-CREATE TABLE `volunteers`(
+CREATE TABLE `staff`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
@@ -98,7 +105,6 @@ CREATE TABLE `hackers`(
   `site_url` VARCHAR(255),
   `hackathon_attendance` ENUM('0', '1-5', '5+'),
   `initiatives` SET('SOFTWARE', 'HARDWARE', 'OPEN_SOURCE'),
-  #`team_member_emails` = ndb.StringProperty(repeated=True)
   `hardware_desired` VARCHAR(255),
   `open_source_interests` VARCHAR(255),
   `extra_information` VARCHAR(255),
