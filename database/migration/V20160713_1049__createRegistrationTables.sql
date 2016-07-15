@@ -1,8 +1,8 @@
 ALTER TABLE `users` ADD (
-  `first_name` VARCHAR(255) NOT NULL DEFAULT '',
-  `last_name` VARCHAR(255) NOT NULL DEFAULT '',
-  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL'));
-  
+  `first_name` VARCHAR(255) NOT NULL,
+  `last_name` VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE `organizations` (
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
@@ -33,6 +33,7 @@ CREATE TABLE `teams_users` (
 CREATE TABLE `admins`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -43,6 +44,7 @@ CREATE TABLE `admins`(
 CREATE TABLE `staff`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -53,6 +55,7 @@ CREATE TABLE `staff`(
 CREATE TABLE `volunteers`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -64,6 +67,7 @@ CREATE TABLE `sponsors`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `organization_id` INT UNSIGNED NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -76,6 +80,7 @@ CREATE TABLE `mentors`(
   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` INT UNSIGNED NOT NULL,
   `organization_id` INT UNSIGNED NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -90,7 +95,7 @@ CREATE TABLE `hackers`(
   `user_id` INT UNSIGNED NOT NULL,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  
+
   `age` TINYINT UNSIGNED,
   `gender` ENUM('NONE', 'MALE', 'FEMALE', 'NON_BINARY', 'OTHER'),
   `school` VARCHAR(255),
@@ -108,10 +113,9 @@ CREATE TABLE `hackers`(
   `hardware_desired` VARCHAR(255),
   `open_source_interests` VARCHAR(255),
   `extra_information` VARCHAR(255),
-  
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
+
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),
   FOREIGN KEY (user_id) REFERENCES `users`(id)
 );
-
-
