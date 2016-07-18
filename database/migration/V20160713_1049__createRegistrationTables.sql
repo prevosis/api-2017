@@ -113,7 +113,7 @@ CREATE TABLE `hackers`(
   `hardware_desired` VARCHAR(255),
   `open_source_interests` VARCHAR(255),
   `extra_information` VARCHAR(255),
-  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL') NOT NULL,
+  `tshirt_size` ENUM('XS', 'S', 'M', 'L', 'XL', 'XXL'),
 
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC),

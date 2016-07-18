@@ -4,7 +4,7 @@ var registration = require('../utils/registration');
 
 var required = ['age', 'gender', 'school',  'graduationYear', 'major', 'diet', 'professionalInterest', 'linkedinUrl', 'githubUrl', 'siteUrl', 'hackathonAttendance', 'initiatives',  'hardwareDesired', 'openSourceInterests', 'extraInformation', 'tshirtSize'];
 var validations = {
-	'age': ['number', 'max:100', 'min:13']
+	'age': ['number', 'max:100', 'min:13'],
 	'gender': ['string', registration.verifyGender],
 	'school': ['string', 'between:0:256'],
 	'graduationYear': ['number', 'max:2020', 'min:2017'],
