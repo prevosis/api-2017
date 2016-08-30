@@ -1,5 +1,8 @@
 /* jshint esversion: 6 */
 
+// NOTE: all duration are expressed using notation understood by the
+// `ms` NPM module. These durations must be converted before they are used.
+
 var logger = require('./logging');
 
 const DEVELOPMENT_IDENTIFIER = 'development';
@@ -8,7 +11,7 @@ const PRODUCTION_IDENTIFIER = 'production';
 var environment = process.env.NODE_ENV;
 var secret = process.env.HACKILLINOIS_SECRET;
 var superuserEmail = process.env.HACKILLINOIS_SUPERUSER_EMAIL;
-var superuserPassword = process.env.HACKKILLINOIS_SUPERUSER_PASSWORD;
+var superuserPassword = process.env.HACKILLINOIS_SUPERUSER_PASSWORD;
 var mailApiKey = process.env.HACKILLINOIS_MAIL_KEY;
 var isDevelopment = environment === DEVELOPMENT_IDENTIFIER;
 var isProduction = environment === PRODUCTION_IDENTIFIER;
@@ -58,17 +61,19 @@ if (!superuserPassword) {
 }
 
 var config = {};
-config.superuser = {};
 config.auth = {};
 config.database = {};
 config.database.primary = { pool: {} };
 config.mail = {};
 config.storage = {};
+config.superuser = {};
+config.token = { expiration: {} };
 
 config.isDevelopment = isDevelopment;
 config.secret = secret;
 config.port = process.env.HACKILLINOIS_PORT || 8080;
 config.profile = 'hackillinois-api';
+
 config.domain = isDevelopment ? ('http://localhost:' + config.port) : 'https://hackillinois.org';
 
 config.superuser.email = superuserEmail;
@@ -78,6 +83,9 @@ config.auth.secret = config.secret;
 config.auth.header = 'Authorization';
 config.auth.expiration = '7d';
 
+config.token.expiration.DEFAULT = '7d';
+config.token.expiration.AUTH = config.token.expiration.DEFAULT;
+
 config.database.primary.host = process.env.RDS_HOSTNAME || process.env.LOCAL_MYSQL_HOST || '127.0.0.1';
 config.database.primary.port = process.env.RDS_PORT || process.env.LOCAL_MYSQL_PORT || 3306;
 config.database.primary.user = process.env.RDS_USERNAME || process.env.LOCAL_MYSQL_USER || 'root';
@@ -85,14 +93,13 @@ config.database.primary.password = process.env.RDS_PASSWORD || process.env.LOCAL
 config.database.primary.name = process.env.RDS_DB_NAME || 'hackillinois-2017';
 config.database.primary.pool.min = 0;
 config.database.primary.pool.max = 7500;
-config.database.primary.pool.idleTimeout = 5 * 1000; // in millseconds
+config.database.primary.pool.idleTimeout = '5s';
 
 config.mail.key = mailApiKey;
 config.mail.sinkhole = '.sink.sparkpostmail.com';
 config.mail.whitelistedDomains = ['@hackillinois.org'];
 config.mail.whitelistedLists = ['test'];
 
-config.storage.maxLength = '2mb';
 config.storage.bucketExtension = (isDevelopment) ? '-development' : '-2017';
 
 logger.info("prepared environment for %s", environment);
